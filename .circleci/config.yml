@@ -6,7 +6,7 @@ jobs:
                      # build image
                      - run: docker info |
                             docker build -t atlantis .
-                     # deploy the image
+                     ## deploy the image
        build:
               machine: true
               steps:
