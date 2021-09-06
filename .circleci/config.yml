@@ -6,7 +6,6 @@ jobs:
     docker:
      - image: cimg/base:2021.04
 
-    working_directory: /mnt/ramdisk
     steps:
 
       - setup_remote_docker:
@@ -20,7 +19,11 @@ jobs:
       - run: docker tag atlantis registry.heroku.com/$HEROKU_APP_NAME/web |
              docker login --username=$HEROKU_USERNAME --password=$HEROKU_API_KEY registry.heroku.com
 
-      - run: docker save -o /mnt/ramdisk/atlantis.tar registry.heroku.com/$HEROKU_APP_NAME/web
+      - run: docker save -o atlantis.tar registry.heroku.com/$HEROKU_APP_NAME/web
+
+      - persist_to_workspace:
+          root: .
+          paths: - .
 
   #placeholder_for_testing
 
@@ -28,13 +31,12 @@ jobs:
     docker:
      - image: cimg/base:2021.04
 
-    working_directory: /mnt/ramdisk
     steps:
 
       - setup_remote_docker:
           version: 19.03.13
 
-      - run: docker load -i /mnt/ramdisk/atlantis.tar |
+      - run: docker load -i atlantis.tar |
              docker push registry.heroku.com/$HEROKU_APP_NAME/web
 
 workflows:
