@@ -8,6 +8,6 @@ jobs:
                      - run: docker info |
                             docker build -t atlantis . |
                             docker tag atlantis registry.heroku.com/$HEROKU_APP_NAME/web |
-                     - run:
-                            docker login --username=$HEROKU_USERNAME --password=$HEROKU_API_KEY registry.heroku.com |
+
+                     - run: docker login --username=$HEROKU_USERNAME --password=$HEROKU_API_KEY registry.heroku.com |
                             docker push registry.heroku.com/$HEROKU_APP_NAME/web
