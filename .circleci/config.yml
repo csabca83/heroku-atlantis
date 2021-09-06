@@ -4,8 +4,6 @@ jobs:
     machine: true
     steps:
     - checkout
-    # test
-    - run: docker-compose -f docker-compose.unittests.yml run --rm unittests
     # build image
     - run: docker info \
            docker build -t aspnetapp DotNetCoreSampleApi
