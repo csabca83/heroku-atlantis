@@ -11,7 +11,7 @@ jobs:
       - checkout
       
       - run: docker info |
-             docker build -t atlantis .
+             docker build -t atlantis /mnt/ramdisk
 
       - run: docker tag atlantis registry.heroku.com/$HEROKU_APP_NAME/web |
              docker login --username=$HEROKU_USERNAME --password=$HEROKU_API_KEY registry.heroku.com
