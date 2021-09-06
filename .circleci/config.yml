@@ -43,10 +43,12 @@ jobs:
           version: 19.03.13
 
       - run: docker load -i /tmp/workspace/atlantis.tar |
-             docker tag atlantis registry.heroku.com/$HEROKU_APP_NAME/web
+             docker images --all
+       
+       #docker tag atlantis registry.heroku.com/$HEROKU_APP_NAME/web
 
-      - run:
-             docker push registry.heroku.com/$HEROKU_APP_NAME/web
+      #- run:
+             #docker push registry.heroku.com/$HEROKU_APP_NAME/web
 
 workflows:
   version: 2
