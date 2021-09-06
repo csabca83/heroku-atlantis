@@ -21,6 +21,8 @@ jobs:
 
       - run: docker save -o atlantis.tar registry.heroku.com/$HEROKU_APP_NAME/web
 
+      - run: mkdir /tmp/workspace
+
       - persist_to_workspace:
           root: /tmp/workspace
           paths:
