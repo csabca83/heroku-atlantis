@@ -18,12 +18,12 @@ jobs:
   #placeholder_for_testing
 
   deploy:
+    docker: true
     steps:
       - run: docker load -i ~/project/atlantis.tar |
              docker push registry.heroku.com/$HEROKU_APP_NAME/web
 
 workflows:
-  docker: true
   version: 2
   build_and_test:
     jobs:
