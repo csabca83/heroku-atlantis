@@ -1,18 +1,21 @@
 version: 2
 jobs:
-build:
-machine: true
-steps:
-  - checkout
-# test
-- run: |
-  docker-compose -f docker-compose.unittests.yml run --rm unittests
-# build image
-- run: |
-  docker info
-  docker build -t atlantis .
-# deploy the image
-- run: |
-  docker login -username=$HEROKU_USERNAME --password=$HEROKU_API_KEY registry.heroku.com 8
-  docker tag atlantis registry.heroku.com/$HEROKU_APP_NAME/web
-  docker push registry.heroku.com/$HEROKU_APP_NAME/web
+  build:
+    machine: true
+    steps:
+      - checkout:
+          run: 
+              docker-compose -f docker-compose.unittests.yml run --rm unittests
+
+      - build image:
+
+          run:
+            docker info
+            docker build -t atlantis .
+
+      - deploy the image:
+
+          run: 
+            docker login -username=$HEROKU_USERNAME --password=$HEROKU_API_KEY registry.heroku.com 8
+            docker tag atlantis registry.heroku.com/$HEROKU_APP_NAME/web
+            docker push registry.heroku.com/$HEROKU_APP_NAME/web
