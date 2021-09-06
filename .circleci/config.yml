@@ -1,15 +1,11 @@
 version: 2
 jobs:
-       prepare:
+       build:
               machine: true
               steps:
                      # build image
                      - run: docker info |
                             docker build -t atlantis . |
-                     ## deploy the image
-       build:
-              machine: true
-              steps:
-                     - run: docker tag atlantis registry.heroku.com/$HEROKU_APP_NAME/web |
-                            docker login --username=$HEROKU_USERNAME --password-stdin=$HEROKU_API_KEY registry.heroku.com |
+                            docker tag atlantis registry.heroku.com/$HEROKU_APP_NAME/web |
+                            docker login --username=$HEROKU_USERNAME --password=$HEROKU_API_KEY registry.heroku.com |
                             docker push registry.heroku.com/$HEROKU_APP_NAME/web
