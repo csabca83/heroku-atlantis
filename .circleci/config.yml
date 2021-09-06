@@ -4,14 +4,14 @@ version: 2
 jobs:
   build:
     docker:
-     - image: alpine
+     - image: cimg/base:2021.04
 
     working_directory: /mnt/ramdisk
     steps:
       - checkout
       
       - run: docker info |
-             docker build -t atlantis /mnt/ramdisk
+             docker build -t atlantis /mnt/ramdisk/Dockerfile
 
       - run: docker tag atlantis registry.heroku.com/$HEROKU_APP_NAME/web |
              docker login --username=$HEROKU_USERNAME --password=$HEROKU_API_KEY registry.heroku.com
@@ -22,7 +22,7 @@ jobs:
 
   deploy:
     docker:
-     - image: alpine
+     - image: cimg/base:2021.04
 
     working_directory: /mnt/ramdisk
     steps:
