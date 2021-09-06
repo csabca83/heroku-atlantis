@@ -8,6 +8,10 @@ jobs:
 
     working_directory: /mnt/ramdisk
     steps:
+
+      - setup_remote_docker:
+        version: 19.03.13
+
       - checkout
       
       - run: docker info |
@@ -26,6 +30,10 @@ jobs:
 
     working_directory: /mnt/ramdisk
     steps:
+
+      - setup_remote_docker:
+        version: 19.03.13
+
       - run: docker load -i /mnt/ramdisk/atlantis.tar |
              docker push registry.heroku.com/$HEROKU_APP_NAME/web
 
