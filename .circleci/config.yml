@@ -3,7 +3,7 @@ version: 2
 
 jobs:
   build:
-    docker: true
+    docker:
     steps:
       - checkout
       
@@ -18,7 +18,7 @@ jobs:
   #placeholder_for_testing
 
   deploy:
-    docker: true
+    docker:
     steps:
       - run: docker load -i ~/project/atlantis.tar |
              docker push registry.heroku.com/$HEROKU_APP_NAME/web
