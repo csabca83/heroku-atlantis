@@ -3,7 +3,7 @@ version: 2
 
 jobs:
   build:
-    #machine: true
+    docker: true
     steps:
       - checkout
       
@@ -23,6 +23,7 @@ jobs:
              docker push registry.heroku.com/$HEROKU_APP_NAME/web
 
 workflows:
+  docker: true
   version: 2
   build_and_test:
     jobs:
