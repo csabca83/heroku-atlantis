@@ -42,7 +42,7 @@ jobs:
       - setup_remote_docker:
           version: 19.03.13
 
-      - run: docker load -i ~/atlantis.tar |
+      - run: docker load -i /tmp/workspace/atlantis.tar |
              docker push registry.heroku.com/$HEROKU_APP_NAME/web
 
 workflows:
