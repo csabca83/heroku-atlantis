@@ -13,7 +13,7 @@ jobs:
       - run: docker tag atlantis registry.heroku.com/$HEROKU_APP_NAME/web |
              docker login --username=$HEROKU_USERNAME --password=$HEROKU_API_KEY registry.heroku.com
 
-      - run: docker save -o ~/project/ registry.heroku.com/$HEROKU_APP_NAME/web
+      #- run: docker save -o ~/project/ registry.heroku.com/$HEROKU_APP_NAME/web
 
   #placeholder_for_testing
 
