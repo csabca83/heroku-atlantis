@@ -16,8 +16,7 @@ jobs:
       - run: docker info |
              docker build -t atlantis .
 
-      - run: docker tag atlantis registry.heroku.com/$HEROKU_APP_NAME/web |
-             docker login --username=$HEROKU_USERNAME --password=$HEROKU_API_KEY registry.heroku.com
+      - run: docker tag atlantis registry.heroku.com/$HEROKU_APP_NAME/web
 
       - run: docker save -o atlantis.tar registry.heroku.com/$HEROKU_APP_NAME/web
 
@@ -42,13 +41,13 @@ jobs:
       - setup_remote_docker:
           version: 19.03.13
 
-      - run: docker load -i /tmp/workspace/atlantis.tar |
-             docker images --all
+      - run: docker login --username=$HEROKU_USERNAME --password=$HEROKU_API_KEY registry.heroku.com |
+             docker load -i /tmp/workspace/atlantis.tar
        
        #docker tag atlantis registry.heroku.com/$HEROKU_APP_NAME/web
 
-      #- run:
-             #docker push registry.heroku.com/$HEROKU_APP_NAME/web
+      - run:
+             docker push registry.heroku.com/$HEROKU_APP_NAME/web
 
 workflows:
   version: 2
