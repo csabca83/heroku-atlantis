@@ -4,7 +4,7 @@ version: 2
 jobs:
   build:
     machine: true
-    working_directory: ~/project/
+    working_directory: ~/
     steps:
       - checkout
       
@@ -14,15 +14,15 @@ jobs:
       - run: docker tag atlantis registry.heroku.com/$HEROKU_APP_NAME/web |
              docker login --username=$HEROKU_USERNAME --password=$HEROKU_API_KEY registry.heroku.com
 
-      - run: docker save -o ~/project/atlantis.tar registry.heroku.com/$HEROKU_APP_NAME/web
+      - run: docker save -o ~/atlantis.tar registry.heroku.com/$HEROKU_APP_NAME/web
 
   #placeholder_for_testing
 
   deploy:
     machine: true
-    working_directory: ~/project/
+    working_directory: ~/
     steps:
-      - run: docker load -i ~/project/atlantis.tar |
+      - run: docker load -i ~/atlantis.tar |
              docker push registry.heroku.com/$HEROKU_APP_NAME/web
 
 workflows:
