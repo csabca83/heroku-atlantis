@@ -23,7 +23,8 @@ jobs:
 
       - persist_to_workspace:
           root: .
-          paths: - .
+          paths:
+              - .
 
   #placeholder_for_testing
 
