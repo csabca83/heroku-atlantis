@@ -1,4 +1,3 @@
-version: 2.1
 jobs:
   # Build the docker image and run tests.
   build_and_test:
