@@ -1,2 +1,2 @@
-release:
-  image: web
+run:
+  web: docker run web
