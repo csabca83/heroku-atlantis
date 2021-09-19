@@ -1,16 +1,4 @@
 jobs:
-  # Build the docker image and run tests.
-  build_and_test:
-    docker:
-      - image: cimg/base:2021.07
-    steps:
-      # For using docker commands.
-      - setup_remote_docker:
-          version: 19.03.13
-
-      # Build the docker image
-      - checkout
-      - run: docker build -t webapp .
 
   build_and_deploy:
     docker:
@@ -40,8 +28,4 @@ version: 2.1
 workflows:
   heroku_deploy:
     jobs:
-      - build_and_test
-      - build_and_deploy:
-          requires:
-            # Deploy after testing.
-            - build_and_test
+      - build_and_deploy
