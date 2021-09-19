@@ -18,8 +18,13 @@ jobs:
       - run: heroku container:login
       - heroku/push-docker-image:
           process-types: web
+
+  release_the_image:
+    docker:
+      - image: cimg/base:2021.07
+      -heroku/install
       - heroku/release-docker-image:
-          process-types: web
+          process-types: web      
 
 orbs:
   # For using Heroku CLI commandｓ.
@@ -30,3 +35,6 @@ workflows:
   heroku_deploy:
     jobs:
       - build_and_deploy
+      - release_the_image:
+        requires:
+          - build_and_deploy
