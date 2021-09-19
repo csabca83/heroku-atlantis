@@ -2,10 +2,4 @@ build:
   docker:
     web: Dockerfile
 run:
-  web: /bin/sh atlantis server \
---port=$PORT \
---gh-user=$GH_USER \
---gh-token=$GH_TOKEN \
---gh-webhook-secret=$GH_WEBHOOK_SECRET \
---repo-allowlist=$REPO_ALLOWLIST \
---repo-config-json='{"repos":[{"id":"/.*/", "allowed_overrides":["apply_requirements","workflow"], "allow_custom_workflows":true}]}'
+  web: docker run web
