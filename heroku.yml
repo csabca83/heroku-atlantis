@@ -2,4 +2,4 @@ build:
   docker:
     web: Dockerfile
 release:
-  container: web
+  image: web
