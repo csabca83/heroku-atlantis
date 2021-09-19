@@ -1,42 +1,48 @@
 version: 2.1
-orbs:
-  node: circleci/node@3.0.1
-  heroku: circleci/heroku@1.0.1
 jobs:
-  build-and-test:
+  # Build the docker image and run tests.
+  build_and_test:
+    docker:
+      - image: cimg/base:2021.07
     steps:
+      # For using docker commands.
       - setup_remote_docker:
-          version: 18.06.0-ce
-      - run:
-          name: Build Docker image
-          command: |
-            docker build -t heroku-dockerize:circleci .
-            docker images
-  deploy:
-    executor: heroku/default
-    steps:
+          version: 19.03.13
+
+      # Build the docker image
       - checkout
-      - run:
-          name: Storing previous commit
-          command: |
-            git rev-parse HEAD > ./commit.txt
-      - heroku/install
+      - run: docker build -t webapp .
+
+  build_and_deploy:
+    docker:
+      - image: cimg/base:2021.07
+    steps:
+      # For using docker commands.
       - setup_remote_docker:
-          version: 18.06.0-ce
-      - run:
-          name: Pushing to heroku registry
-          command: |
-            heroku container:login
-            heroku container:push web --arg NODE_ENV=production -a $HEROKU_APP_NAME
-            heroku container:release web -a $HEROKU_APP_NAME
+          version: 19.03.13
+
+      # Build the docker image
+      - checkout
+      - run: docker build .
+
+      # Deploy to Heroku
+      - heroku/install
+      - run: heroku container:login
+      - heroku/push-docker-image:
+          process-types: web
+      - heroku/release-docker-image:
+          process-types: web
+
+orbs:
+  # For using Heroku CLI commandｓ.
+  heroku: circleci/heroku@1.2.6
+
+version: 2.1
 workflows:
-  build-test-deploy:
+  heroku_deploy:
     jobs:
-      - build-and-test
-      - deploy:
+      - build_and_test
+      - build_and_deploy:
           requires:
-            - build-and-test
-          filters:
-            branches:
-              only:
-                - master
+            # Deploy after testing.
+            - build_and_test
