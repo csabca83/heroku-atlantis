@@ -29,8 +29,8 @@ jobs:
       - run: heroku container:login
       - heroku/push-docker-image:
           process-types: web
-      - heroku/release-docker-image:
-          process-types: web
+      #- heroku/release-docker-image:
+      #    process-types: web
 
 orbs:
   # For using Heroku CLI commandｓ.
