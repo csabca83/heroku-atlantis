@@ -1,5 +1,6 @@
 build:
   docker:
-    release:
-       dockerfile: Dockerfile
     web: Dockerfile
+    worker: web/Dockerfile
+release:
+  image: web
