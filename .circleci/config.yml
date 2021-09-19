@@ -1,60 +1,31 @@
-version: 2
-
-
+version: 2.1
+orbs:
+  heroku: circleci/heroku@1.0.1
 jobs:
-  build:
-    docker:
-     - image: cimg/base:2021.04
-
-    steps:
-
-      - setup_remote_docker:
-          version: 19.03.13
-
-      - checkout
-      
-      - run: docker info |
-             docker build -t atlantis .
-
-      - run: docker tag atlantis registry.heroku.com/$HEROKU_APP_NAME/web
-
-      - run: docker save -o atlantis.tar registry.heroku.com/$HEROKU_APP_NAME/web
-
-      - run: mkdir /tmp/workspace |
-             cp atlantis.tar /tmp/workspace
-
-      - persist_to_workspace:
-          root: /tmp/workspace
-          paths:
-              - atlantis.tar
-
-  #placeholder_for_testing
-
   deploy:
-    docker:
-     - image: cimg/base:2021.04
-
+    executor: heroku/default
     steps:
-      - attach_workspace:
-          at: /tmp/workspace
-
-      - setup_remote_docker:
-          version: 19.03.13
-
-      - run: docker login --username=$HEROKU_USERNAME --password=$HEROKU_API_KEY registry.heroku.com |
-             docker load -i /tmp/workspace/atlantis.tar
-       
-       #docker tag atlantis registry.heroku.com/$HEROKU_APP_NAME/web
-
+      - checkout
       - run:
-             docker push registry.heroku.com/$HEROKU_APP_NAME/web
-
+          name: Storing previous commit
+          command: |
+            git rev-parse HEAD > ./commit.txt
+      - heroku/install
+      - setup_remote_docker:
+          version: 18.06.0-ce
+      - run:
+          name: Pushing to heroku registry
+          command: |
+            heroku container:login
+            heroku container:push web --arg NODE_ENV=production -a $HEROKU_APP_NAME
+            heroku container:release web -a $HEROKU_APP_NAME
 workflows:
-  version: 2
-  build_and_test:
+  build-test-deploy:
     jobs:
-      - build
-      #- test
       - deploy:
           requires:
-            - build
+            - build-and-test
+          filters:
+            branches:
+              only:
+                - master
