@@ -22,7 +22,7 @@ jobs:
   release_the_image:
     docker:
       - image: cimg/base:2021.07
-      -heroku/install
+      - heroku/install
       - heroku/release-docker-image:
           process-types: web      
 
