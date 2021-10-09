@@ -6,6 +6,7 @@ USER myuser
 
 # Run the app.  CMD is required to run on Heroku
 # $PORT is set by Heroku
+# test
 CMD atlantis server \
 --port=$PORT \
 --gh-user=$GH_USER \
